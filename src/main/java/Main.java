@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         openDatabase("database.db");
-        // code to get data from, write to the database etc goes here!
+        // I am so done with this
         try {
 
             PreparedStatement ps = db.prepareStatement("SELECT UserID, Email FROM Users WHERE Username = 'coolKat'");
