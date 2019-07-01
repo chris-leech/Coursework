@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         openDatabase("database.db");
-        // I am so done with this 3
+        // I am so done with this 4
         try {
 
             PreparedStatement ps = db.prepareStatement("SELECT UserID, Email FROM Users WHERE Username = 'coolKat'");
