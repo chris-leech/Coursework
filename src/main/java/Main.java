@@ -8,28 +8,28 @@ public class Main {
     public static Connection db = null;
 
     public static void main(String[] args) {
+
         openDatabase("database.db");
-        // I am so done with this 4
+
+        ResourceConfig config = new ResourceConfig();
+        config.packages("Controllers");
+        config.register(MultiPartFeature.class);
+        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+
+        Server server = new Server(8081);
+        ServletContextHandler context = new ServletContextHandler(server, "/");
+        context.addServlet(servlet, "/*");
+
         try {
-
-            PreparedStatement ps = db.prepareStatement("SELECT userID, email FROM users WHERE firstName = 'Alex'");
-
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                String username = results.getString(1);
-                System.out.println(username);
-                String email = results.getString(2);
-                System.out.println(email);
-            }
-
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
+            server.start();
+            System.out.println("Server successfully started.");
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
-       listUsers();
-        closeDatabase();
     }
+
+
 
     private static void openDatabase(String dbFile) {
         try  {
