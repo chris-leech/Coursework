@@ -34,8 +34,7 @@ public class Main {
         context.addServlet(servlet, "/*");
 
         try {
-            System.out.println(User.createUser("SUPER", "COOL", "SUPERCOOLUSER", "SUPERCOOLEMAIL@COOL.COM", "SUPER COOL HASH", "1,2,3", 1));
-            System.out.println(User.listUsers());
+                   System.out.println(User.listUsers());
             server.start();
             System.out.println("Server successfully started.");
             server.join();

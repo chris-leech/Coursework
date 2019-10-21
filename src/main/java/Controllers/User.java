@@ -90,7 +90,7 @@ public class User {
     public static void updateUser (int userID, String firstName, String lastName, String username, String email, String passwordHash, String enrolledCourses, int userPrivs){
         try {
 
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET firstName = ?, lastName = ?, username = ?, email = ?, passwordHash = ?, enrolledCourses = ?, userPrivs = ? WHERE UserID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET firstName = ?, lastName = ?, username = ?, email = ?, passwordHash = ?, enrolledCourses = ?, userPrivs = ? WHERE userID = ?");
             ps.setInt(1, userID);
             ps.setString(2, firstName);
             ps.setString(3, lastName);
