@@ -43,20 +43,33 @@ public class User {
     }
 
     public static String listUsers() {
+        JSONArray list = new JSONArray();
         try  {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT userID, username, email FROM Users");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT userID, firstName, lastName, username, email, enrolledCourses FROM Users");
             ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                int userID = results.getInt(1);
-                String username = results.getString(2);
-                String dateOfBirth = results.getString(3);
 
+            while (results.next()) {
                 JSONObject info = new JSONObject();
-                info.put("userID", userID);
+                int userID = results.getInt(1);
+                String firstName = results.getString(2);
+                String lastName = results.getString(3);
+                String username = results.getString(4);
+                String email = results.getString(5);
+                String enrolledCourses = results.getString(6);
+
+
+
+                info.put("userid", userID);
+                info.put("firstname", firstName);
+                info.put("lastname", lastName);
                 info.put("username", username);
-                info.put("DOB", dateOfBirth);
-                return(info.toString());
+                info.put("email", email);
+                info.put("enrolled", enrolledCourses);
+                list.add(info);
+
+
             }
+            return(list.toString());
         }  catch(Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
         }
@@ -87,24 +100,24 @@ public class User {
 
 
 
-    public static void updateUser (int userID, String firstName, String lastName, String username, String email, String passwordHash, String enrolledCourses, int userPrivs){
+    public static String updateUser (int userID, String firstName, String lastName, String username, String email, String passwordHash, String enrolledCourses, int userPrivs){
         try {
 
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET firstName = ?, lastName = ?, username = ?, email = ?, passwordHash = ?, enrolledCourses = ?, userPrivs = ? WHERE userID = ?");
-            ps.setInt(1, userID);
-            ps.setString(2, firstName);
-            ps.setString(3, lastName);
-            ps.setString(4, username);
-            ps.setString(5, email);
-            ps.setString(6, passwordHash);
-            ps.setString(7, enrolledCourses);
-            ps.setInt(8, userPrivs);
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setString(3, username);
+            ps.setString(4, email);
+            ps.setString(5, passwordHash);
+            ps.setString(6, enrolledCourses);
+            ps.setInt(7, userPrivs);
+            ps.setInt(8, userID);
 
-            ps.executeUpdate();
-
+            ps.execute();
+            return("OK");
         } catch (Exception e) {
 
-            System.out.println(e.getMessage());
+            return(e.getMessage());
 
         }
 
