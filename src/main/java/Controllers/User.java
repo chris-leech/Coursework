@@ -16,7 +16,7 @@ public class User {
     @POST
     @Path("login")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
 
 
     public String userLogin(@FormDataParam("username") String username, @FormDataParam("password") String password) {
@@ -42,7 +42,14 @@ public class User {
 
     }
 
+
+    @GET
+    @Path("list")
+    @Produces(MediaType.APPLICATION_JSON)
+
     public static String listUsers() {
+
+        System.out.println(System.currentTimeMillis()/1000 + " | CLIENT ACCESS: user/list");
         JSONArray list = new JSONArray();
         try  {
             PreparedStatement ps = Main.db.prepareStatement("SELECT userID, firstName, lastName, username, email, enrolledCourses FROM Users");
@@ -77,8 +84,61 @@ public class User {
     }
 
 
-    public static String createUser(String firstName, String lastName, String username, String email, String passwordHash, String enrolledCourses, int userPrivs) {
+    @GET
+    @Path("get/{id}")   // allows user to pass information
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public String listUser(@PathParam("id") Integer id) {
+
+
+        System.out.println(System.currentTimeMillis()/1000 + " | CLIENT ACCESS: user/get/" + id);
+        JSONArray list = new JSONArray();
+        try  {
+            if (id == null) {
+                throw new Exception("no id given");
+            }
+            PreparedStatement ps = Main.db.prepareStatement("SELECT firstName, lastName, username, email, enrolledCourses FROM Users WHERE userID = ?");
+            ps.setInt(1, id);
+            ResultSet results = ps.executeQuery();
+
+            while (results.next()) {
+                JSONObject info = new JSONObject();
+                String firstName = results.getString(1);
+                String lastName = results.getString(2);
+                String username = results.getString(3);
+                String email = results.getString(4);
+                String enrolledCourses = results.getString(5);
+
+
+                info.put("firstname", firstName);
+                info.put("lastname", lastName);
+                info.put("username", username);
+                info.put("email", email);
+                info.put("enrolled", enrolledCourses);
+                list.add(info);
+
+
+            }
+            return(list.toString());
+        }  catch(Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+        }
+        return null;
+    }
+
+
+    @POST
+    @Path("create")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public static String createUser(@FormDataParam("firstName") String firstName, @FormDataParam("lastName") String lastName, @FormDataParam("username") String username, @FormDataParam("email") String email, @FormDataParam("passwordHash") String passwordHash, @FormDataParam("enrolledCourses") String enrolledCourses, @FormDataParam("userPrivs") int userPrivs) {
         try {
+            System.out.println(System.currentTimeMillis()/1000 + " | CLIENT ACCESS: user/create");
+
+            if(firstName == null || lastName == null || username == null || email == null || passwordHash == null || enrolledCourses == null || String.valueOf(userPrivs) == null ) {
+                throw new Exception("you need to fill everything in");
+            }
             PreparedStatement ps = Main.db.prepareStatement(
                     "INSERT INTO Users (firstName, lastName, username, email, passwordHash, enrolledCourses, userPrivs) VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
@@ -94,13 +154,17 @@ public class User {
             return "OK";
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return "Error: Something as gone wrong.  Please contact the administrator with the error code UC-UA.";
+            return "Error: Something as gone wrong.  Please contact the administrator with the error code UC-CU.";
         }
     }
 
 
+    @POST
+    @Path("update")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
 
-    public static String updateUser (int userID, String firstName, String lastName, String username, String email, String passwordHash, String enrolledCourses, int userPrivs){
+    public static String updateUser(@FormDataParam("userID") int userID, @FormDataParam("firstName") String firstName, @FormDataParam("lastName") String lastName, @FormDataParam("username") String username, @FormDataParam("email") String email, @FormDataParam("passwordHash") String passwordHash, @FormDataParam("enrolledCourses") String enrolledCourses, @FormDataParam("userPrivs") int userPrivs) {
         try {
 
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET firstName = ?, lastName = ?, username = ?, email = ?, passwordHash = ?, enrolledCourses = ?, userPrivs = ? WHERE userID = ?");
