@@ -97,11 +97,11 @@ public class Course {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
-    public static String createCourse(@FormDataParam("courseName") String courseName, @FormDataParam("questionAmount") String questionAmount) {
+    public static String createCourse(@FormDataParam("courseName") String courseName, @FormDataParam("questionAmount") int questionAmount) {
         try {
             System.out.println(System.currentTimeMillis()/1000 + " | CLIENT ACCESS: user/create");
 
-            if(courseName == null || questionAmount == null) {
+            if(courseName == null ||  String.valueOf(questionAmount) == null) {
                 throw new Exception("you need to fill everything in");
             }
             PreparedStatement ps = Main.db.prepareStatement(
@@ -109,7 +109,7 @@ public class Course {
             );
 
             ps.setString(1, courseName);
-            ps.setString(2, questionAmount);
+            ps.setInt(2, questionAmount);
 
             ps.executeUpdate();
             return "OK";
@@ -117,6 +117,30 @@ public class Course {
             System.out.println(e.getMessage());
             return "Error: Something as gone wrong.  Please contact the administrator with the error code CC-CU.";
         }
+    }
+
+
+    @POST
+    @Path("update")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public static String updateCourse(@FormDataParam("courseID") int courseID, @FormDataParam("courseName") String courseName, @FormDataParam("questionAmount") int questionAmount) {
+        try {
+
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Courses SET courseName = ?, questionAmount = ? WHERE courseID = ?");
+            ps.setString(1, courseName);
+            ps.setInt(2, questionAmount);
+            ps.setInt(3, courseID);
+
+            ps.execute();
+            return("OK");
+        } catch (Exception e) {
+
+            return(e.getMessage());
+
+        }
+
     }
 
 }

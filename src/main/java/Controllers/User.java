@@ -188,19 +188,9 @@ public class User {
     }
 
 
-    public static void deleteCourse (int courseID){
-        try {
 
-            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Courses WHERE CourseID = ?");
-            ps.setInt(1, courseID);
-            ps.executeUpdate();
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
 
-        }
-
-    }
 
 }
 
