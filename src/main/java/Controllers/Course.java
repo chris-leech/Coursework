@@ -16,7 +16,7 @@ public class Course {
     @Produces(MediaType.APPLICATION_JSON)
 
 
-    public static String listUsers() {
+    public static String listCourses() {
 
         System.out.println(System.currentTimeMillis()/1000 + " | CLIENT ACCESS: course/list");
         JSONArray list = new JSONArray();
