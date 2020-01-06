@@ -14,7 +14,7 @@ function pageLoad() {
 
     document.getElementById("testDiv").innerHTML = myHTML;
 
-    fetch('/user/get/4')
+    fetch('/user/list')
         .then(response => {
             return response.json()
         })
@@ -23,7 +23,7 @@ function pageLoad() {
             let obj = JSON.parse(JSON.stringify(data));
             // Work with JSON data here
             console.log(obj[0].firstname)
-            document.getElementById("crud").innerHTML = JSON.stringify(obj.email);
+          //  document.getElementById("crud").innerHTML = JSON.stringify(obj[0]);
         })
 }
 

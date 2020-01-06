@@ -42,6 +42,11 @@ header li {
 
 }
 
+a {
+    color: deepskyblue;
+    font-size:17px;
+    text-decoration: none;
+}
 header li a {
     color: white;
     font-size:20px;
@@ -68,6 +73,7 @@ h1 {
     margin: 0 auto;
 }
 
+
 input#search-bar{
     border-radius: 10px;
     margin: 0 auto;
@@ -77,23 +83,6 @@ input#search-bar{
     font-size: 1rem;
     border: none;
     outline: none;
-&:focus{
-     border: 1px solid #008ABF;
-     transition: 0.35s ease;
-     color: #008ABF;
-&::-webkit-input-placeholder{
-     transition: opacity 0.45s ease;
-     opacity: 0;
- }
-&::-moz-placeholder {
-     transition: opacity 0.45s ease;
-     opacity: 0;
- }
-&:-ms-placeholder {
-     transition: opacity 0.45s ease;
-     opacity: 0;
- }
-}
 }
 
 #footer {
@@ -104,4 +93,13 @@ input#search-bar{
     height:30px;
     width:100%;
     background:#999;
+}
+
+.login-box {
+    border-radius: 10px;
+    background-color: white;
+    border: none;
+    height: 350px;
+    width: 100%;
+    color: black;
 }
