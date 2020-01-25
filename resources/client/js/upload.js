@@ -22,7 +22,7 @@ function uploadImage(event) {
     if (document.getElementById('file').value !== '') {
 
 
-        imageUploadForm.style.display = 'none';
+    //    imageUploadForm.style.display = 'none';
 
         document.getElementById('uploading').style.display = 'block';
 
@@ -50,7 +50,7 @@ function uploadImage(event) {
                 imageUploadForm.style.display = 'block';
 
 
-                document.getElementById('uploading').style.display = 'none';
+                document.getElementById('uploading').innerHTML = "Uploaded!";
 
             }
 

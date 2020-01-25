@@ -16,6 +16,8 @@ import java.io.IOException;
 @Path("client/")
 public class Client {
 
+
+
     @GET
     @Path("img/{path}")
     @Produces({"image/jpeg,image/png"})

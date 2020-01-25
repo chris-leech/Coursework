@@ -201,6 +201,35 @@ public class User {
     }
 
 
+
+    @GET
+    @Path("name")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String userName(@CookieParam("sessionToken") Cookie sessionCookie) {
+
+        System.out.println("Invoked UserController.userName()");
+
+        if (sessionCookie == null) {
+            return "Error: Something as gone wrong.  Please contact the administrator with the error code UC-UN";
+        }
+
+        try {
+            String uuid = sessionCookie.getValue();
+            PreparedStatement ps = Main.db.prepareStatement(
+                    "SELECT firstName FROM Users WHERE UUID = ?"
+            );
+            ps.setString(1, uuid);
+            ResultSet resultSet = ps.executeQuery();
+            return resultSet.getString("FirstName");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "Error: Something as gone wrong.  Please contact the administrator with the error code UC-UN. ";
+
+        }
+
+    }
+
+
     @POST
     @Path("create")
     @Consumes(MediaType.MULTIPART_FORM_DATA)

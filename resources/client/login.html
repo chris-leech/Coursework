@@ -2,16 +2,77 @@
 <html>
 
 <head>
+<body onload="pageLoad()">
     <title>CodeLearn</title>
     <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
     <script src="/client/js/index.js"></script>
+    <script src="/client/js/bootstrap.min.js"></script>
+    <script src="/client/js/js.cookie.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/client/favicon.ico" type="image/x-icon">
 
 
 
 </head>
 
-<body onload="pageLoad()">
+
+
+<script>
+    "use strict";  //see https://www.w3schools.com/js/js_strict.asp, eg no undeclared variables
+
+    function validateForm() {
+        console.log("Invoked validateForm()");
+        let valid = true;
+
+        document.getElementById("usernameValidationText").innerHTML = "";
+        document.getElementById("passwordValidationText").innerHTML = "";  //clear these so if form validated again, messages are gone
+
+        if (document.getElementById("username").value === "") {
+            document.getElementById("usernameValidationText").innerHTML = "Please enter your username.";
+            valid = false;
+        }
+
+        if (!document.getElementById("password").checkValidity()) {
+            document.getElementById("passwordValidationText").innerHTML = "Please enter password length 8 - 12 chars";
+            valid = false;
+        }
+
+        if (valid === true) {
+            postUserLogin()
+        }
+
+    }
+
+
+    function postUserLogin() {
+        console.log("Invoked postUserLogin() ");
+
+        var url = "/user/login";
+        var formData = new FormData(document.getElementById('loginForm'));
+
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        }).then(response => {                               //returns a promise (a proxy for a value)
+            if (!response.ok) {                             //fetch provides a simple ok flag that indicates whether an HTTP response’s status code is in the successful range or not
+                throw new Error(response.status + " " + response.statusText);       //if not throw Error with the status text.  example unsupported media when consumes is missing from controller, cookie.js not referenced
+            } else {
+                return response.text();                     //if it is successful, convert promise to text
+            }
+        }).then(response => {
+            if (response.startsWith('Error:')) {
+                alert(response);
+            } else {
+                Cookies.set("sessionToken", response);      //response is UUID value for session cookie
+                window.open("index.html", "_self");       //open welcome.html in same tab.
+            }
+        }).catch(error => document.write(error));           //catch the error and overwrite the page with the text
+    }
+
+</script>
+
+
 
 <header>
     <div class="Welcome" style="margin-left: 2%;"><h1>Welcome</h1></div>
@@ -33,6 +94,17 @@
         <div style="text-align:center; padding-top:3px;line-height:10px;">
         <h2>Login</h2>
             <h3>Learn something today</h3>
+
+            <form id="loginForm">
+
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                <div id="usernameValidationText"></div>
+
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" pattern=".{8,12}" required>
+                <div id="passwordValidationText"></div>
+
+            </form>
+            <button class="button" onclick='validateForm();'>LOGIN</button> <!-- button outside of form -->
             <a href src="example.com" style="position: absolute; bottom: 0; left: 0; padding:15px;">Forgot password?</a>
             <h4 style="position: absolute; bottom: 0; right: 15%; line-height:0px;">Don't have an account yet?</h4>
             <a href src="example.com" style="position: absolute; bottom: 0; right: 0; padding-bottom:16px; padding-right:20px;">Sign up</a>

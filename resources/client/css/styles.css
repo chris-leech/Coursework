@@ -34,11 +34,12 @@ header {
 
 header * {
     display: inline-flex;
-
+    float: right;
 }
 
 header li {
-    margin: 20px;
+    margin: 27px;
+    float: right;
 
 }
 
@@ -67,6 +68,12 @@ h1 {
 
 }
 
+
+.welcome {
+    margin-left: 0%;
+    position:fixed;
+    top:0;
+}
 .search-container{
     width: 30%;
     display: block;

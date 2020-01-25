@@ -5,7 +5,7 @@ function pageLoad() {
     let now = new Date()
     let myHTML = '<div style="text-align:center;">'
         + '<h1>Tracking your progress</h1>'
-        + '<img src="/client/img/pa tpat.gif"  alt="Logo"/>'
+        + '<img src="/client/img/rei.gif"  alt="Logo"/>'
         + '<div style="font-style: italic;">'
         + 'Generated at ' + now.toLocaleTimeString()
         + '</div>'
