@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/client/favicon.ico" type="image/x-icon">
-
+    <script src="/client/js/particles.min.js"></script>
+    <script src="/client/js/app.js"></script>
 
 
 </head>
@@ -34,7 +35,7 @@
         }
 
         if (!document.getElementById("password").checkValidity()) {
-            document.getElementById("passwordValidationText").innerHTML = "Please enter password length 6 - 32 chars";
+            document.getElementById("passwordValidationText").innerHTML = "Please enter a password of 6-32 characters";
             valid = false;
         }
 
@@ -99,10 +100,10 @@
             <form id="loginForm">
 
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-                <div id="usernameValidationText"></div>
+                <div id="usernameValidationText"  style="padding-top:12px; padding-bottom:5px;"></div>
 
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" pattern=".{6,32}" required>
-                <div id="passwordValidationText" style="padding-top:10px;"></div>
+                <div id="passwordValidationText" style="padding-top:12px; padding-bottom:3px;"></div>
 
             </form>
             <button id="submitlogin" class="button" onclick='validateForm();'>LOGIN</button> <!-- button outside of form -->
@@ -121,5 +122,5 @@
 
 
 </body>
-
+<div id="particles-js"></div>
 </html>
