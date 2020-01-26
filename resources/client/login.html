@@ -34,7 +34,7 @@
         }
 
         if (!document.getElementById("password").checkValidity()) {
-            document.getElementById("passwordValidationText").innerHTML = "Please enter password length 8 - 12 chars";
+            document.getElementById("passwordValidationText").innerHTML = "Please enter password length 6 - 32 chars";
             valid = false;
         }
 
@@ -74,20 +74,21 @@
 
 
 
-<header>
-    <div class="Welcome" style="margin-left: 2%;"><h1>Welcome</h1></div>
-    <div style="margin-left: 70%;">
-        <nav>
+    <div class="welcome" style="margin-left: 2%;"><h1>Welcome</h1></div>
 
-            <ul>
-                <li><a href="#">I'm new here</a></li>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Courses</a></li>
-            </ul>
+    <header>
+        <div style="margin-left: 80%;">
+            <nav>
 
-        </nav>
-    </div>
-</header>
+                <ul>
+                    <li><a href="#">I'm new here</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href=javascript:logout()>[x]</a></li>
+                </ul>
+
+            </nav>
+        </div>
+    </header>
 <main>
     <div class="search-container">
     <div class="login-box" style="position:relative;">
@@ -100,11 +101,11 @@
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
                 <div id="usernameValidationText"></div>
 
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password" pattern=".{8,12}" required>
-                <div id="passwordValidationText"></div>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" pattern=".{6,32}" required>
+                <div id="passwordValidationText" style="padding-top:10px;"></div>
 
             </form>
-            <button class="button" onclick='validateForm();'>LOGIN</button> <!-- button outside of form -->
+            <button id="submitlogin" class="button" onclick='validateForm();'>LOGIN</button> <!-- button outside of form -->
             <a href src="example.com" style="position: absolute; bottom: 0; left: 0; padding:15px;">Forgot password?</a>
             <h4 style="position: absolute; bottom: 0; right: 15%; line-height:0px;">Don't have an account yet?</h4>
             <a href src="example.com" style="position: absolute; bottom: 0; right: 0; padding-bottom:16px; padding-right:20px;">Sign up</a>

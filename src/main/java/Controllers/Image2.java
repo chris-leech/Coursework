@@ -3,7 +3,6 @@ package Controllers;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.*;
 import javax.ws.rs.Path;
@@ -12,9 +11,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.io.File;
 import java.io.IOException;
-
-
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -23,16 +19,20 @@ import java.io.File;  //Read and write files
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import com.sun.pdfview.PDFFile;  //Main library
 import com.sun.pdfview.PDFPage;
 import org.json.simple.JSONArray;
 
 
+
 @Path("image/")
-
-
-
 
 
 
@@ -42,9 +42,9 @@ public class Image2{
 
 
 
-    public static void split() {
+    public static void split(String filename) {
         try {
-            String sourceDir = "resources/client/img/paper1.pdf";// PDF file
+            String sourceDir = "resources/client/img/" + filename;// PDF file
             String destinationDir = "resources/client/img/pdf/";//PDF pages saved in this folder
 
             File sourceFile = new File(sourceDir);
@@ -95,23 +95,6 @@ public class Image2{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @POST
 
     @Path("upload")
@@ -146,8 +129,8 @@ public class Image2{
             outputStream.flush();
 
             outputStream.close();
-
-            split();
+            System.out.println(formData.getFileName());
+            split(formData.getFileName());
             return "{\"status\":\"OK\"}";
 
 

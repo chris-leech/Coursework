@@ -110,3 +110,36 @@ input#search-bar{
     width: 100%;
     color: black;
 }
+
+input#username{
+     border-radius: 10px;
+     margin: 0 auto;
+     width: 80%;
+     height: 45px;
+     padding: 0px 20px;
+     font-size: 1rem;
+     border: none;
+     outline: none;
+ }
+
+input#password{
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 80%;
+    height: 45px;
+    padding: 0px 20px;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
+button#submitlogin{
+    background-color: #71CEEB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 10px 52px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
