@@ -233,17 +233,17 @@ public class User {
     @POST
     @Path("create")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
 
-    public static String createUser(@FormDataParam("firstName") String firstName, @FormDataParam("lastName") String lastName, @FormDataParam("username") String username, @FormDataParam("email") String email, @FormDataParam("passwordHash") String passwordHash, @FormDataParam("enrolledCourses") String enrolledCourses, @FormDataParam("userPrivs") int userPrivs) {
+    public static String createUser(@FormDataParam("firstName") String firstName, @FormDataParam("lastName") String lastName, @FormDataParam("username") String username, @FormDataParam("email") String email, @FormDataParam("passwordHash") String passwordHash) {
         try {
             System.out.println(System.currentTimeMillis()/1000 + " | CLIENT ACCESS: user/create");
 
-            if(firstName == null || lastName == null || username == null || email == null || passwordHash == null || enrolledCourses == null || String.valueOf(userPrivs) == null ) {
+            if(firstName == null || lastName == null || username == null || email == null || passwordHash == null) {
                 throw new Exception("you need to fill everything in");
             }
             PreparedStatement ps = Main.db.prepareStatement(
-                    "INSERT INTO Users (firstName, lastName, username, email, passwordHash, enrolledCourses, userPrivs) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO Users (firstName, lastName, username, email, passwordHash) VALUES (?, ?, ?, ?, ?)"
             );
 
             ps.setString(1, firstName);
@@ -251,8 +251,6 @@ public class User {
             ps.setString(3, username);
             ps.setString(4, email);
             ps.setString(5, passwordHash);
-            ps.setString(6, enrolledCourses);
-            ps.setInt(7, userPrivs);
             ps.executeUpdate();
             return "OK";
         } catch (Exception e) {

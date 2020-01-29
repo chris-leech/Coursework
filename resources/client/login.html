@@ -78,6 +78,31 @@
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
     }
+
+
+
+    function postUserAdd() {
+        console.log("Invoked postUserAdd() ");
+
+        var url = "/user/create";
+        var formData = new FormData(document.getElementById('newUserForm'));
+        console.log(formData);
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        }).then(response => {
+            return response.text()          //method returns a promise, have to return from here to get text
+        }).then(response => {
+            if (response.startsWith('Error:')) {
+                alert(response);
+            } else {
+                alert("New account created.  Please log in");
+                window.open("login.html", "_self");
+            }
+        });
+    }
+
+
 </script>
 
 
@@ -123,25 +148,28 @@
 </main>
 
     <div class="form-popup" id="myForm">
-        <form action="/action_page.php" class="form-container">
+
+        <form style="padding-bottom:6%;" class="form-container" id="newUserForm">
             <h1 style="color:black;">Sign up</h1>
-            <label for="firstname"><b>First Name</b></label>
-            <input type="text" placeholder="Enter First Name" name="firstname" required>
+            <input type="text" name='firstName' placeholder="First name">
 
-            <label for="lasttname"><b>Last Name</b></label>
-            <input type="text" placeholder="Enter Last Name" name="lastname" required>
 
-            <label for="username"><b>Userame</b></label>
-            <input type="text" placeholder="Enter Username" name="username" required>
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+            <input type="text" name='lastName' placeholder="Last name">
 
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
 
-            <button type="submit" class="btn">Submit</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            <input type="text" name='username' placeholder="Username">
+
+
+            <input type="text" name='email' placeholder="Enter email">
+
+            <input type="password" name='passwordHash' placeholder="Password">
+
+
         </form>
+        <div class="signupbtn">
+        <button type="button" class="btn" onclick="postUserAdd()">Submit</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </div>
     </div>
 
 
