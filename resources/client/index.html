@@ -11,36 +11,21 @@
     <link rel="shortcut icon" href="/client/favicon.ico" type="image/x-icon">
     <script src="/client/js/particles.min.js"></script>
     <script src="/client/js/app.js"></script>
-
-
 </head>
-
-
-
-
-
-
-
 
 <script>
     "use strict";
-
     function pageLoadLocal() {
         console.log("Invoked pageLoad()");
-
         const todaysDate = new Date().toISOString().slice(0, 10);  //get today's date as yyyy-mm-dd
      //   document.getElementById("dateEaten").setAttribute("value", todaysDate);
-
         getUserName();
     }
-
-
     function logout() {
         console.log("logout - remove cookies and redirect to login page");
         Cookies.remove("sessionToken");
         window.location.href = "index.html";
     }
-
     function getUserName() {
         console.log("Invoked getUserName()");
         const url = "/user/name";
@@ -60,20 +45,12 @@
     }
     pageLoadLocal();
 </script>
-
-
-
-
-
-
     <div class="welcome">
         <h1 id="Welcome">Welcome</h1>
     </div>
-
 <header>
     <div style="margin-left: 55%;">
     <nav>
-
         <ul>
             <li><a href="#">I'm new here</a></li>
             <li><a href="upload.html">Upload</a></li>
@@ -83,28 +60,28 @@
             <li><a href="#">Profile</a></li>
             <li><a href=javascript:logout()>[x]</a></li>
         </ul>
-
     </nav>
     </div>
 </header>
 <main>
-
     <form class="search-container">
         <input type="text" id="search-bar" placeholder="Search">
          </form>
-
 </main>
-
-
 
 <div id="content">
 
     <div id="testDiv"></div>
     <div id="crud"></div>
 </div>
-
-
 </body>
-
 <div id="particles-js"></div>
+<div id="footer" class="footer">
+    <ul id="menu">
+        <li>FAQ</li>
+        <li>Contact</li>
+        <li><a href=/client/sitemap.xml>Sitemap</a></li>
+        <li>Coursework (2019)</li>
+    </ul>
+</div>
 </html>

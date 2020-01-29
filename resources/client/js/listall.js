@@ -73,7 +73,7 @@ function displayThumbnails(startIndex) {
 
         if (startIndex === n) {
 
-            style = 'background-color: yellow';
+            style = 'background-color: grey';
 
         }
 

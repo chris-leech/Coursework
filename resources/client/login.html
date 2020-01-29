@@ -71,6 +71,13 @@
         }).catch(error => document.write(error));           //catch the error and overwrite the page with the text
     }
 
+    function openForm() {
+        document.getElementById("myForm").style.display = "flex";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
 </script>
 
 
@@ -92,7 +99,7 @@
     </header>
 <main>
     <div class="search-container">
-    <div class="login-box" style="position:relative;">
+    <div id="loginbox" class="login-box" style="position:relative;">
         <div style="text-align:center; padding-top:3px;line-height:10px;">
         <h2>Login</h2>
             <h3>Learn something today</h3>
@@ -109,18 +116,48 @@
             <button id="submitlogin" class="button" onclick='validateForm();'>LOGIN</button> <!-- button outside of form -->
             <a href src="example.com" style="position: absolute; bottom: 0; left: 0; padding:15px;">Forgot password?</a>
             <h4 style="position: absolute; bottom: 0; right: 15%; line-height:0px;">Don't have an account yet?</h4>
-            <a href src="example.com" style="position: absolute; bottom: 0; right: 0; padding-bottom:16px; padding-right:20px;">Sign up</a>
+            <a href="javascript:openForm();" style="position: absolute; bottom: 0; right: 0; padding-bottom:16px; padding-right:20px;">Sign up</a>
         </div>
     </div>
     </div>
 </main>
 
-<div id="content">
+    <div class="form-popup" id="myForm">
+        <form action="/action_page.php" class="form-container">
+            <h1 style="color:black;">Sign up</h1>
+            <label for="firstname"><b>First Name</b></label>
+            <input type="text" placeholder="Enter First Name" name="firstname" required>
 
+            <label for="lasttname"><b>Last Name</b></label>
+            <input type="text" placeholder="Enter Last Name" name="lastname" required>
+
+            <label for="username"><b>Userame</b></label>
+            <input type="text" placeholder="Enter Username" name="username" required>
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" name="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit" class="btn">Submit</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+
+    <div id="content">
     <div id="crud"></div>
 </div>
 
 
 </body>
 <div id="particles-js"></div>
+<div id="footer" class="footer">
+    <ul id="menu">
+        <li>FAQ</li>
+        <li>Contact</li>
+        <li><a href=/client/sitemap.xml>Sitemap</a></li>
+        <li>Coursework (2019)</li>
+    </ul>
+</div>
 </html>

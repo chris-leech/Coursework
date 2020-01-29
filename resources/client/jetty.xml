@@ -1,0 +1,12 @@
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+    <Ref refid="Rewrite">
+        <Call name="addRule">
+            <Arg>
+                <New class="org.eclipse.jetty.rewrite.handler.RedirectPatternRule">
+                    <Set name="pattern" type="String"></Set>
+                    <Set name="location">/client/index.html</Set>
+                </New>
+            </Arg>
+        </Call>
+    </Ref>
+</Configure>

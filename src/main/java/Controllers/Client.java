@@ -20,6 +20,12 @@ import java.io.IOException;
 @Path("client/")
 public class Client {
 
+    @GET
+    @Path("img/pdf/{path}")
+    @Produces({"image/jpeg,image/png"})
+    public byte[] getPdfFile(@PathParam("path") String path) {
+        return getFile("client/img/pdf/" + path);
+    }
 
 
     @GET
