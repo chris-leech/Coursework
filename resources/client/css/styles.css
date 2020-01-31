@@ -88,6 +88,15 @@ h1 {
 }
 
 
+.news-container{
+    width: 100%;
+    display: block;
+    z-index:-99;
+    padding-top: 5%;
+    padding-left:78%;
+    margin: 0 auto;
+}
+
 input#search-bar{
     border-radius: 10px;
     margin: 0 auto;
@@ -131,6 +140,15 @@ input#search-bar{
     color: black;
 }
 
+
+.news-box {
+    border-radius: 10px;
+    background-color: white;
+    border: none;
+    height: 550px;
+    color: black;
+    z-index: -99;
+}
 input#username{
      border-radius: 10px;
      margin: 0 auto;

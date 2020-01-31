@@ -31,15 +31,114 @@ import com.sun.pdfview.PDFPage;
 import org.json.simple.JSONArray;
 
 
+class workaround {
+    public static int line1;
+    public static int line2;
+    public static String baseFolder = "resources/client/img/pdf/";
+    public static String tessdata = "C:\\Program Files\\Tesseract-OCR\\tessdata";
+    public static String imageFolder = "resources/client/img/pdf/";
+    public static String fileName = baseFolder + "testoutput.hocr";
+}
+
+class RegExLine
+{
+
+
+    public void find()
+    {
+        String fileName = workaround.fileName;
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        try (Stream<String> stream = Files.lines(Paths.get(fileName)))
+        {
+            stream.forEach(s ->
+            {
+                atomicInteger.getAndIncrement();
+                Pattern qstart = Pattern.compile("\\d+\\.(<\\/span>)",Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                Matcher qstartmatcher = qstart.matcher(s);
+                if (qstartmatcher.find())
+                {
+                    System.out.println("line "+ atomicInteger);
+                    workaround.line1 = atomicInteger.intValue();
+                }
+
+                Pattern qend = Pattern.compile("^.*?\\([^\\d]*(\\d+)[^\\d]*\\).*$",Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                Matcher qendmatcher = qend.matcher(s);
+                if (qendmatcher.find())
+                {
+                    System.out.println("line "+ atomicInteger);
+                    workaround.line2 = atomicInteger.intValue();
+
+                }
+
+
+            });
+
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+}
+
 
 @Path("image/")
-
 
 
 public class Image2{
 
 
 
+    public static void process()
+            throws IOException  {
+
+
+        File dir = new File(workaround.imageFolder);
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File childfile : directoryListing) {
+
+                try {
+                    String command = "\"C:\\Program Files\\Tesseract-OCR\\tesseract.exe\" " + childfile.toString() + " " + workaround.baseFolder + "testoutput --tessdata-dir \"" + workaround.tessdata + "\" --dpi 300 -l eng hocr";
+                    System.out.println(command);
+                    Process child = Runtime.getRuntime().exec(command);
+                    Thread.sleep(4000);
+                    new RegExLine().find();
+                    System.out.println(workaround.line1);
+                    String line1data = Files.readAllLines(Paths.get(workaround.fileName)).get(workaround.line1 - 1);
+                    String line2data = Files.readAllLines(Paths.get(workaround.fileName)).get(workaround.line2 - 1);
+                    Pattern p = Pattern.compile("\\d+\\w");
+                    System.out.println(line1data);
+                    Matcher m = p.matcher(line1data);
+                    m.find();
+                    m.find();
+                    int xcoord1 = Integer.valueOf(m.group());
+                    m.find();
+
+                    int ycoord1 = Integer.valueOf(m.group());
+                    m = p.matcher(line2data);
+                    m.find();
+                    m.find();
+                    m.find();
+                    int xcoord2 = Integer.valueOf(m.group());
+                    m.find();
+                    int ycoord2 = Integer.valueOf(m.group());
+                    File imageFile = new File(childfile.toString());
+                    BufferedImage originalImage = ImageIO.read(imageFile);
+                    BufferedImage SubImage = originalImage.getSubimage(xcoord1, ycoord1 - 10, xcoord2, ycoord2 - (ycoord1 - 50));
+                    File pathFile = new File(childfile.toString());
+                    ImageIO.write(SubImage, "png", pathFile);
+                }
+                catch(Exception e) {
+                    System.out.println("error");
+                    Files.deleteIfExists(Paths.get(childfile.toString()));
+                }
+            }
+        }
+
+    }
 
 
     public static void split(String filename) {
@@ -131,6 +230,7 @@ public class Image2{
             outputStream.close();
             System.out.println(formData.getFileName());
             split(formData.getFileName());
+            process();
             return "{\"status\":\"OK\"}";
 
 
